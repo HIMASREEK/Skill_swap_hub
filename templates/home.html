@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="mb-3">Welcome to SkillSwap Hub</h1>
+    <p class="lead">Exchange skills. Learn something new. Teach what you know.</p>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'skill_list' %}" class="btn btn-primary btn-lg mt-3">Browse Skills</a>
+    {% else %}
+        <a href="{% url 'signup' %}" class="btn btn-success btn-lg mt-3 me-2">Get Started</a>
+        <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg mt-3">Login</a>
+    {% endif %}
+</div>
+{% endblock %}
