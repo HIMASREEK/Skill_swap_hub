@@ -4,6 +4,7 @@ from .models import ExchangeRequest, Review
 from .forms import ReviewForm
 from skills.models import Skill
 
+
 @login_required
 def exchange_list(request):
     requests_sent = ExchangeRequest.objects.filter(sender=request.user)
@@ -14,14 +15,16 @@ def exchange_list(request):
     }
     return render(request, 'exchanges/request_list.html', context)
 
+
 @login_required
-def exchange_create(request, skill_id):
+def create_exchange_request(request, skill_id):
     receiver_skill = get_object_or_404(Skill, id=skill_id)
 
+    # User cannot request their own skill
     if receiver_skill.user == request.user:
         return redirect('skill_list')
 
-    sender_skills = Skill.objects.filter(user=request.user)
+    sender_skills = Skill.objects.filter(user=request.user, teach_or_learn='teach')
 
     if request.method == 'POST':
         sender_skill_id = request.POST.get('sender_skill')
@@ -33,7 +36,6 @@ def exchange_create(request, skill_id):
             sender_skill=sender_skill,
             receiver_skill=receiver_skill
         )
-
         return redirect('exchange_list')
 
     return render(request, 'exchanges/request_create.html', {
@@ -41,10 +43,12 @@ def exchange_create(request, skill_id):
         'sender_skills': sender_skills
     })
 
+
 @login_required
 def request_detail(request, pk):
     req = get_object_or_404(ExchangeRequest, pk=pk)
     return render(request, 'exchanges/request_detail.html', {'request': req})
+
 
 @login_required
 def exchange_accept(request, pk):
@@ -54,6 +58,7 @@ def exchange_accept(request, pk):
         req.save()
     return redirect('exchange_list')
 
+
 @login_required
 def exchange_reject(request, pk):
     req = get_object_or_404(ExchangeRequest, pk=pk)
@@ -61,6 +66,7 @@ def exchange_reject(request, pk):
         req.status = 'rejected'
         req.save()
     return redirect('exchange_list')
+
 
 @login_required
 def exchange_review(request, pk):
@@ -77,4 +83,4 @@ def exchange_review(request, pk):
     else:
         form = ReviewForm()
 
-    return render(request, 'exchanges/review_form.html', {'form': form})
+    return render(request, 'exchanges/review_form.html', {'form': form, 'exchange': req})

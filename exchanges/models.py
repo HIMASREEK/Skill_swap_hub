@@ -12,9 +12,8 @@ class ExchangeRequest(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('accepted', 'Accepted'),
-        ('rejected', 'Rejected'),
+        ('rejected', 'Rejected')
     ]
-
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -23,10 +22,10 @@ class ExchangeRequest(models.Model):
 
 
 class Review(models.Model):
-    exchange = models.OneToOneField(ExchangeRequest, on_delete=models.CASCADE)
+    exchange = models.OneToOneField(ExchangeRequest, on_delete=models.CASCADE, related_name='review')
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField()
     comment = models.TextField()
 
     def __str__(self):
-        return f"Review by {self.reviewer.username} for Exchange #{self.exchange.id}"
+        return f"Review by {self.reviewer.username} - {self.rating}/5"

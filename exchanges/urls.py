@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.exchange_list, name='exchange_list'),
-    path('create/<int:skill_id>/', views.exchange_create, name='exchange_create'),
+    path('create/<int:skill_id>/', views.create_exchange_request, name='create_exchange_request'),
     path('request/<int:pk>/', views.request_detail, name='exchange_detail'),
     path('request/<int:pk>/accept/', views.exchange_accept, name='exchange_accept'),
     path('request/<int:pk>/reject/', views.exchange_reject, name='exchange_reject'),

@@ -7,10 +7,14 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h3 class="text-center mb-4">Leave a Review</h3>
+
+                <p><strong>Exchange:</strong> {{ exchange.sender.username }} ↔ {{ exchange.receiver.username }}</p>
+                <p><strong>Skill Learned:</strong> {{ exchange.receiver_skill.name }}</p>
+
                 <form method="post">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <button type="submit" class="btn btn-primary w-100">Submit Review</button>
+                    <button type="submit" class="btn btn-info w-100">Submit Review</button>
                 </form>
             </div>
         </div>

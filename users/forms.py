@@ -5,7 +5,7 @@ from .models import Profile
 
 
 class SignupForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField()
 
     class Meta:
         model = User
@@ -15,4 +15,4 @@ class SignupForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['profile_pic', 'bio', 'location']
+        fields = ['profile_pic', 'bio']
